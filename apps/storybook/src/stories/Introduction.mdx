@@ -1,0 +1,102 @@
+{/* apps/storybook/src/stories/Introduction.mdx */}
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Introduction" />
+
+# Neo//Brutal Design System
+
+A **framework-agnostic** design system with a React component library adapter.
+Built to demonstrate senior front-end engineering: systems thinking, monorepo architecture, and production-grade components.
+
+---
+
+## Architecture
+
+```
+neo-brutal-ds/
+├── packages/
+│   ├── tokens/     ← Single source of truth (colors, typography, spacing…)
+│   │                  Outputs: JS/TS exports + CSS custom properties
+│   │                  Works in: React, Vue, Angular, plain HTML
+│   │
+│   ├── core/       ← Framework-agnostic utilities + base CSS classes
+│   │                  Depends on: tokens
+│   │                  Works in: any project that can import CSS
+│   │
+│   └── react/      ← React component library
+│                      Depends on: tokens, core
+│                      Peer deps: react ≥18
+│
+└── apps/
+    └── storybook/  ← This docs site
+```
+
+---
+
+## Design Principles
+
+### 1. Thick borders
+Every interactive element has a `2.5px solid #1A1A1A` border. No exceptions.
+
+### 2. Hard offset shadows
+Shadows are `Xpx Ypx 0px #1A1A1A` — zero blur radius.
+They create depth without softness, giving UI elements a printed/sticker quality.
+
+### 3. Press animations
+On click, elements translate by the shadow offset and their shadow collapses to `none`.
+This creates a tactile "button clicking into the surface" feel.
+
+### 4. Pastel + black
+High saturation pastels sit on a bright yellow background with black ink outlines.
+Think Risograph printing or early Nickelodeon graphics.
+
+---
+
+## Installation
+
+**Option A — React** (components + tokens + styles):
+```bash
+pnpm add @neo-brutal/react
+```
+
+**Option B — CSS only** (any framework):
+```bash
+pnpm add @neo-brutal/tokens @neo-brutal/core
+```
+Then in your entry file:
+```css
+@import "@neo-brutal/core/styles";
+```
+
+---
+
+## Quick Start (React)
+
+```tsx
+import { Button, Card, Badge } from "@neo-brutal/react";
+
+function App() {
+  return (
+    <Card bg="#A8E6CF" padding="24px">
+      <Badge label="NEW RELEASE" />
+      <h2>Hey Hey Rise Up</h2>
+      <Button label="Play Now" variant="primary" icon="▶" />
+    </Card>
+  );
+}
+```
+
+---
+
+## Tokens
+
+All design values live in `@neo-brutal/tokens`.
+Import them in TypeScript for full autocomplete:
+
+```ts
+import { colors, shadows, borders } from "@neo-brutal/tokens";
+
+// colors.mint      → "#A8E6CF"
+// shadows.md       → "4px 4px 0px #1A1A1A"
+// borders.radii.lg → "14px"
+```

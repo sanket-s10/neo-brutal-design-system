@@ -1,0 +1,31 @@
+{
+  "name": "neo-brutal-ds",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Neo-brutalist design system — framework-agnostic tokens + React components",
+  "packageManager": "npm@10.0.0",
+  "scripts": {
+    "build":           "turbo run build",
+    "dev":             "turbo run dev --parallel",
+    "lint":            "turbo run lint",
+    "typecheck":       "turbo run typecheck",
+    "storybook":       "npm run dev --workspace=apps/storybook",
+    "build-storybook": "npm run build --workspace=apps/storybook",
+    "portfolio":       "npm run dev --workspace=apps/portfolio",
+    "clean":           "turbo run clean && rm -rf node_modules"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "devDependencies": {
+    "turbo":      "^2.0.0",
+    "typescript": "^5.4.0",
+    "prettier":   "^3.2.0",
+    "@types/node":"^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm":  ">=8.0.0"
+  }
+}
