@@ -1,7 +1,6 @@
 # Neo//Brutal Design System
 
-> A production-grade, framework-agnostic design system with a React adapter —
-> built to demonstrate senior front-end engineering skills.
+> A production-grade, framework-agnostic design system with a React adapter.
 
 [![CI](https://github.com/your-username/neo-brutal-ds/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/neo-brutal-ds/actions)
 
