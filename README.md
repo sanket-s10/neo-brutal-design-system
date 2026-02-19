@@ -1,6 +1,6 @@
 # Neo//Brutal Design System
 
-> A production-grade, framework-agnostic design system with a React adapter.
+> A production-grade, framework-agnostic design system with a React adapter —
 
 [![CI](https://github.com/your-username/neo-brutal-ds/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/neo-brutal-ds/actions)
 
@@ -13,7 +13,7 @@ This project is intentionally architected to showcase senior-level front-end ski
 | Skill | Where |
 |---|---|
 | **Design system architecture** | 3-layer token → core → component model |
-| **Monorepo management** | Turborepo + pnpm workspaces |
+| **Monorepo management** | Turborepo + npm workspaces |
 | **Framework-agnostic thinking** | `@neo-brutal/tokens` works in any stack |
 | **TypeScript craftsmanship** | Strict types, generics, `as const` tokens |
 | **Component API design** | `forwardRef`, accessible ARIA, composition |
@@ -49,10 +49,11 @@ neo-brutal-ds/
 │           └── index.ts     ← public API barrel
 │
 ├── apps/
-│   └── storybook/       ← docs site (React + Vite + Storybook 8)
+│   ├── storybook/       ← docs site (React + Vite + Storybook 8)
+│   └── portfolio/       ← demo app (Vite + React)
 │
 ├── turbo.json           ← Turborepo pipeline
-├── pnpm-workspace.yaml  ← workspace config
+├── package.json         ← npm workspaces config
 └── tsconfig.base.json   ← shared TS config
 ```
 
@@ -87,8 +88,7 @@ neo-brutal-ds/
 
 ### Prerequisites
 
-- **Node.js** ≥ 18
-- **pnpm** ≥ 9 — install with `npm i -g pnpm`
+- **Node.js** ≥ 18 — that's it, no other tools needed
 
 ### Install
 
@@ -103,12 +103,20 @@ npm install
 ```bash
 npm run build
 ```
+Turborepo builds packages in the correct order: `tokens` → `core` → `react`
 
-### Run Storybook
+### Run Storybook (Component Documentation)
 
 ```bash
 npm run storybook
 # → http://localhost:6006
+```
+
+### Run Portfolio (Demo App)
+
+```bash
+npm run portfolio
+# → http://localhost:5173
 ```
 
 ### Typecheck everything
@@ -177,12 +185,12 @@ import { colors, shadows, borders, typography } from "@neo-brutal/tokens";
 ## Design Principles
 
 ### 1. Hard offset shadows
-```
+```css
 box-shadow: 4px 4px 0px #1A1A1A;  /* zero blur — always */
 ```
 
 ### 2. Thick borders
-```
+```css
 border: 2.5px solid #1A1A1A;  /* on every interactive element */
 ```
 
@@ -203,6 +211,12 @@ Black outlines everywhere, like Risograph printing.
 ## Package Dependency Graph
 
 ```
+@neo-brutal/portfolio
+  └── @neo-brutal/react
+        ├── @neo-brutal/core
+        │     └── @neo-brutal/tokens
+        └── @neo-brutal/tokens
+
 @neo-brutal/storybook
   └── @neo-brutal/react
         ├── @neo-brutal/core
@@ -214,8 +228,50 @@ Turborepo understands this graph and builds packages in the correct order automa
 
 ---
 
+## Project Structure
+
+- **`packages/tokens`** — Design tokens as TypeScript + CSS variables
+- **`packages/core`** — Framework-agnostic utilities + base CSS
+- **`packages/react`** — React component library (9 components)
+- **`apps/storybook`** — Interactive component documentation
+- **`apps/portfolio`** — Demo developer portfolio site built with the system
+
+---
+
+## Components
+
+The React package includes:
+- `Button` — 6 variants, 3 sizes, loading state
+- `Card` — Configurable container
+- `Badge` — Status labels
+- `TextInput` — With icon, label, error support
+- `Toggle` — Switch component
+- `Checkbox` — With indeterminate state
+- `Slider` — Range input
+- `Alert` — 4 types (info, success, warning, error)
+- `Avatar` / `AvatarGroup` — User avatars
+
+---
+
+## Available Scripts
+
+```bash
+npm run build            # Build all packages
+npm run dev              # Run all packages in watch mode
+npm run storybook        # Run Storybook docs (port 6006)
+npm run portfolio        # Run portfolio demo (port 5173)
+npm run build-storybook  # Build static Storybook
+npm run typecheck        # Type-check all packages
+npm run clean            # Clean all build artifacts
+```
+
+---
+
 ## Roadmap
 
+- [ ] Add tests (Vitest + Testing Library)
+- [ ] Accessibility audit (axe + manual testing)
+- [ ] More components (Select, Modal, Tabs, Tooltip)
 - [ ] `@neo-brutal/vue` adapter
 - [ ] Figma token sync (Style Dictionary)
 - [ ] Dark mode token layer
@@ -225,6 +281,12 @@ Turborepo understands this graph and builds packages in the correct order automa
 
 ---
 
+## Contributing
+
+This is a learning project, but contributions are welcome! Please open an issue before starting work on major changes.
+
+---
+
 ## License
 
-MIT © your-username
+MIT © Sanket Sangar
