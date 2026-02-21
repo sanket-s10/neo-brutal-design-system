@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Card, Badge } from "@neo-brutal/react";
 import { colors, shadows, borders } from "@neo-brutal/tokens";
+import ProfilePhotoSection from "./ProfilePhotoSection";
 
 // ── Extra primitives not yet in the lib (local to this app) ────
 const SH = (n = 4, c = colors.black) => `${n}px ${n}px 0px ${c}`;
@@ -85,36 +86,36 @@ function Section({ children, delay = 0 }: { children: React.ReactNode; delay?: n
 // ── Data ─────────────────────────────────────────────────────────
 const PROJECTS = [
   {
-    title: "Neo//Brutal DS",
-    desc: "Framework-agnostic design system with React adapter. Turborepo monorepo, CSS custom properties, full Storybook docs.",
-    tags: ["TypeScript", "React", "Turborepo", "Storybook"],
+    title: "Enterprise UI Framework",
+    desc: "TypeScript-based component framework with generic and discriminated union patterns. Adopted across 5+ products serving 50k+ customers.",
+    tags: ["TypeScript", "React", "Design Systems", "Component Architecture"],
     color: colors.yellowLight,
     badge: "FEATURED",
-    metric: "3 packages · 9 components",
+    metric: "5+ products · 30% faster dev",
   },
   {
-    title: "Pocket Finance",
-    desc: "Personal budgeting dashboard with real-time charts, category tracking, and monthly trend analysis.",
-    tags: ["React", "Recharts", "Supabase", "Tailwind"],
+    title: "E-Commerce Platform",
+    desc: "High-traffic Next.js web platform with SSR/SSG hybrid rendering, optimized state management, and 20% performance gains.",
+    tags: ["Next.js", "Redux", "Redux-Saga", "Performance"],
     color: colors.mintLight,
-    badge: "OPEN SOURCE",
-    metric: "1.2k GitHub stars",
+    badge: "PRODUCTION",
+    metric: "20% faster load times",
   },
   {
-    title: "TypeForge CLI",
-    desc: "Code generation CLI that scaffolds fully typed API clients from OpenAPI specs in seconds.",
-    tags: ["Node.js", "TypeScript", "OpenAPI", "CLI"],
+    title: "Research Data Viz",
+    desc: "Interactive scientific data visualizations for a biomedical genomics platform. Complex datasets made explorable.",
+    tags: ["D3.js", "Plotly.js", "React", "Data Visualization"],
     color: colors.lavenderLight,
-    badge: "v2.0",
-    metric: "40k npm downloads",
+    badge: "DATA VIZ",
+    metric: "85% test coverage",
   },
   {
-    title: "GridMind",
-    desc: "AI-powered layout tool that generates responsive CSS grid templates from rough wireframe sketches.",
-    tags: ["Next.js", "OpenAI", "Canvas API", "CSS"],
+    title: "Component Library",
+    desc: "Shared component library with Storybook documentation. Single source of truth for UI across multiple teams.",
+    tags: ["Storybook", "Material UI", "TypeScript", "a11y"],
     color: colors.coralLight,
-    badge: "IN PROGRESS",
-    metric: "Building in public",
+    badge: "OPEN SOURCE",
+    metric: "WCAG compliant",
   },
 ];
 
@@ -122,50 +123,64 @@ const SKILLS = [
   {
     group: "Languages",
     color: colors.yellowLight,
-    items: ["TypeScript", "JavaScript", "Python", "CSS / Sass"],
+    items: ["TypeScript", "JavaScript (ES6+)", "HTML", "CSS"],
   },
   {
-    group: "Frameworks",
+    group: "Frontend",
     color: colors.mintLight,
-    items: ["React", "Next.js", "Node.js", "Vite"],
+    items: ["React", "Next.js", "Tailwind CSS", "Material UI"],
   },
   {
-    group: "Tooling",
+    group: "State & Data",
     color: colors.lavenderLight,
-    items: ["Turborepo", "Storybook", "Webpack", "Jest / Vitest"],
+    items: ["Redux", "Redux-Saga", "REST APIs", "GraphQL"],
   },
   {
-    group: "Design",
+    group: "Testing",
     color: colors.pinkLight,
-    items: ["Figma", "Design Systems", "a11y / WCAG", "CSS-in-JS"],
+    items: ["Jest", "Playwright", "React Testing Library"],
   },
 ];
 
 const EXPERIENCE = [
   {
-    role: "Senior Frontend Engineer",
-    company: "Vercel",
-    period: "2022 – Present",
-    desc: "Led design system migration from legacy CSS to token-based architecture. Reduced bundle size by 34% and improved Lighthouse scores across all consumer products.",
+    role: "Software Engineer II (Frontend)",
+    company: "Kaseya",
+    period: "2023 – 2025",
+    desc: "Architected a TypeScript-based UI framework adopted across 5+ enterprise products serving 50,000+ customers globally. Reduced UI development time by ~30% through reusable component abstractions.",
     color: colors.yellowLight,
   },
   {
-    role: "Frontend Engineer",
-    company: "Linear",
-    period: "2020 – 2022",
-    desc: "Built the core issue tracking UI from scratch. Shipped keyboard-first navigation, real-time collaboration, and a custom virtualized list rendering 100k+ items.",
+    role: "Software Engineer (Frontend)",
+    company: "Frontier Communication",
+    period: "2021 – 2023",
+    desc: "Built high-traffic web platform with Next.js using SSR/SSG strategies. Owned state management architecture and drove 20% rendering efficiency improvements through performance optimization.",
     color: colors.mintLight,
   },
   {
-    role: "UI Engineer",
-    company: "Stripe",
-    period: "2018 – 2020",
-    desc: "Owned the Developer Dashboard component library. Established testing conventions and accessibility standards adopted across 6 product teams.",
+    role: "Software Engineer (Frontend)",
+    company: "Hitachi Vantara",
+    period: "2019 – 2021",
+    desc: "Engineered interactive data visualizations with D3.js and Plotly.js for a biomedical research platform. Maintained 85% test coverage and mentored 2 junior engineers.",
     color: colors.lavenderLight,
   },
 ];
 
 const NAV_ITEMS = ["Work", "Skills", "Experience", "Contact"] as const;
+
+// Tech stack items for marquee
+const TECH_STACK = [
+  { type: "react", label: "React" },
+  { type: "typescript", label: "TypeScript" },
+  { type: "nextjs", label: "Next.js" },
+  { type: "javascript", label: "JavaScript" },
+  { type: "redux", label: "Redux" },
+  { type: "tailwind", label: "Tailwind" },
+  { type: "nodejs", label: "Node.js" },
+  { type: "graphql", label: "GraphQL" },
+  { type: "d3", label: "D3.js" },
+  { type: "jest", label: "Jest" },
+];
 
 // ═════════════════════════════════════════════════════════════════
 // PORTFOLIO
@@ -185,9 +200,157 @@ export default function Portfolio() {
   }, []);
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("sanket@example.com");
+    navigator.clipboard.writeText("sanketsangar.11@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Render tech icon based on type
+  const renderTechIcon = (type: string) => {
+    switch (type) {
+      case "react":
+        return (
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="2.5" fill={colors.black} />
+            <ellipse cx="12" cy="12" rx="10" ry="4" stroke={colors.black} strokeWidth="1.5" fill="none" />
+            <ellipse cx="12" cy="12" rx="10" ry="4" stroke={colors.black} strokeWidth="1.5" fill="none" transform="rotate(60 12 12)" />
+            <ellipse cx="12" cy="12" rx="10" ry="4" stroke={colors.black} strokeWidth="1.5" fill="none" transform="rotate(120 12 12)" />
+          </svg>
+        );
+      case "typescript":
+        return (
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              background: colors.black,
+              borderRadius: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "'Black Han Sans', Impact, sans-serif",
+              fontSize: 20,
+              color: colors.white,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            TS
+          </div>
+        );
+      case "nextjs":
+        return (
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              background: colors.black,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "'Black Han Sans', Impact, sans-serif",
+              fontSize: 16,
+              color: colors.white,
+              letterSpacing: "0.02em",
+            }}
+          >
+            N
+          </div>
+        );
+      case "javascript":
+        return (
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              background: colors.yellowLight,
+              border: BR(),
+              borderRadius: 4,
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              padding: 5,
+              fontFamily: "'Black Han Sans', Impact, sans-serif",
+              fontSize: 22,
+              color: colors.black,
+            }}
+          >
+            JS
+          </div>
+        );
+      case "redux":
+        return (
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="6" r="3" stroke={colors.black} strokeWidth="1.5" fill={colors.lavenderLight} />
+            <circle cx="6" cy="16" r="3" stroke={colors.black} strokeWidth="1.5" fill={colors.lavenderLight} />
+            <circle cx="18" cy="16" r="3" stroke={colors.black} strokeWidth="1.5" fill={colors.lavenderLight} />
+            <path d="M12 9V12L8 14" stroke={colors.black} strokeWidth="1.5" />
+            <path d="M12 12L16 14" stroke={colors.black} strokeWidth="1.5" />
+          </svg>
+        );
+      case "tailwind":
+        return (
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path d="M6 12C6 9 8 7 12 7C16 7 17 9 17 11C17 13 16 14 14 14C12 14 11 13 11 12C11 11 12 10 14 10" stroke={colors.black} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+            <path d="M7 17C7 14 9 12 13 12C17 12 18 14 18 16C18 18 17 19 15 19C13 19 12 18 12 17C12 16 13 15 15 15" stroke={colors.black} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          </svg>
+        );
+      case "nodejs":
+        return (
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 2L21 7V17L12 22L3 17V7L12 2Z"
+              stroke={colors.black}
+              strokeWidth="1.5"
+              fill={colors.mintLight}
+            />
+            <path d="M12 8V16" stroke={colors.black} strokeWidth="1.5" />
+            <path d="M8 10V14L12 16L16 14V10" stroke={colors.black} strokeWidth="1.5" fill="none" />
+          </svg>
+        );
+      case "graphql":
+        return (
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <polygon points="12,2 22,7 22,17 12,22 2,17 2,7" stroke={colors.black} strokeWidth="1.5" fill={colors.pinkLight} />
+            <circle cx="12" cy="2" r="2" fill={colors.black} />
+            <circle cx="22" cy="7" r="2" fill={colors.black} />
+            <circle cx="22" cy="17" r="2" fill={colors.black} />
+            <circle cx="12" cy="22" r="2" fill={colors.black} />
+            <circle cx="2" cy="17" r="2" fill={colors.black} />
+            <circle cx="2" cy="7" r="2" fill={colors.black} />
+          </svg>
+        );
+      case "d3":
+        return (
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              background: colors.coralLight,
+              border: BR(),
+              borderRadius: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "'Black Han Sans', Impact, sans-serif",
+              fontSize: 18,
+              color: colors.black,
+            }}
+          >
+            D3
+          </div>
+        );
+      case "jest":
+        return (
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke={colors.black} strokeWidth="1.5" fill={colors.coralLight} />
+            <path d="M8 10L12 14L16 10" stroke={colors.black} strokeWidth="1.5" fill="none" />
+            <circle cx="12" cy="17" r="1.5" fill={colors.black} />
+          </svg>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -201,6 +364,24 @@ export default function Portfolio() {
         color: colors.black,
       }}
     >
+      {/* Keyframe animations */}
+      <style>
+        {`
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+          }
+          @keyframes cursor-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+          }
+        `}
+      </style>
+
       {/* ── NAV ──────────────────────────────────────────────── */}
       <nav
         style={{
@@ -225,7 +406,7 @@ export default function Portfolio() {
             letterSpacing: "0.04em",
           }}
         >
-          SK<span style={{ color: colors.pink }}>.</span>DEV
+          SS<span style={{ color: colors.pink }}>.</span>DEV
         </div>
 
         <div style={{ display: "flex", gap: 4 }}>
@@ -260,27 +441,8 @@ export default function Portfolio() {
 
         {/* ── HERO ─────────────────────────────────────────────── */}
         <section style={{ padding: "60px 0 72px", position: "relative" }}>
-          {/* Floating blob */}
-          <div
-            style={{
-              position: "absolute",
-              right: -20,
-              top: 40,
-              width: 120,
-              height: 120,
-              background: colors.mint,
-              border: BR(),
-              borderRadius: "30% 70% 70% 30% / 30% 30% 70% 70%",
-              boxShadow: SH(6),
-              animation: "float 4s ease-in-out infinite",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 48,
-            }}
-          >
-            🧑‍💻
-          </div>
+          {/* Profile */}
+          <ProfilePhotoSection />
 
           {/* Available badge */}
           <div
@@ -351,7 +513,7 @@ export default function Portfolio() {
               marginBottom: 24,
             }}
           >
-            <span>Senior Frontend Engineer</span>
+            <span>Senior Software Engineer (Frontend)</span>
             <span
               style={{
                 animation: "cursor-blink 1s infinite",
@@ -371,8 +533,9 @@ export default function Portfolio() {
               marginBottom: 32,
             }}
           >
-            I build design systems and interfaces that are fast, accessible, and impossible to
-            forget. Currently obsessed with monorepo architecture and component API design.
+            I build scalable, high-performance web applications with React and TypeScript. 
+            Specialized in frontend architecture, design systems, and performance optimization 
+            for enterprise-scale products.
           </p>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
@@ -385,10 +548,10 @@ export default function Portfolio() {
           <div style={{ display: "flex", gap: 16, marginTop: 40, flexWrap: "wrap" }}>
             {(
               [
-                ["6+", "Years exp."],
-                ["40k", "npm downloads"],
-                ["3", "Design systems"],
-                ["12", "Open source repos"],
+                ["7+", "Years exp."],
+                ["50k+", "Users served"],
+                ["5+", "Enterprise products"],
+                ["30%", "Dev time saved"],
               ] as [string, string][]
             ).map(([n, l]) => (
               <Card key={l} bg={colors.white} radius="sm" padding="14px 20px" shadow="sm">
@@ -415,6 +578,85 @@ export default function Portfolio() {
                 </div>
               </Card>
             ))}
+          </div>
+        </section>
+
+        {/* ── TECH STACK MARQUEE ───────────────────────────────────── */}
+        <section style={{ paddingBottom: 48 }}>
+          <div
+            style={{
+              background: colors.white,
+              border: BR(),
+              borderRadius: 16,
+              boxShadow: SH(4),
+              padding: "20px 0",
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            {/* Fade edges */}
+            <div
+              style={{
+                position: "absolute",
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: 60,
+                background: `linear-gradient(to right, ${colors.white}, transparent)`,
+                zIndex: 2,
+                pointerEvents: "none",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                right: 0,
+                top: 0,
+                bottom: 0,
+                width: 60,
+                background: `linear-gradient(to left, ${colors.white}, transparent)`,
+                zIndex: 2,
+                pointerEvents: "none",
+              }}
+            />
+
+            {/* Scrolling track */}
+            <div
+              style={{
+                display: "flex",
+                gap: 40,
+                animation: "marquee 25s linear infinite",
+                width: "max-content",
+              }}
+            >
+              {[...Array(2)].map((_, setIndex) => (
+                <div key={setIndex} style={{ display: "flex", alignItems: "center", gap: 40 }}>
+                  {TECH_STACK.map((tech, i) => (
+                    <div
+                      key={`${setIndex}-${i}`}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
+                    >
+                      {renderTechIcon(tech.type)}
+                      <span
+                        style={{
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: 10,
+                          fontWeight: 600,
+                          opacity: 0.6,
+                        }}
+                      >
+                        {tech.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -684,14 +926,14 @@ export default function Portfolio() {
                       padding: "14px 20px",
                       cursor: "pointer",
                       fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: 600,
                       transition: "transform 80ms, box-shadow 80ms",
                       userSelect: "none",
                     }}
                   >
                     <span style={{ flex: 1, textAlign: "left" }}>
-                      {copied ? "✓  Copied!" : "sanket@example.com"}
+                      {copied ? "✓  Copied!" : "sanketsangar.11@gmail.com"}
                     </span>
                     <span style={{ opacity: 0.5 }}>⎘</span>
                   </button>
@@ -699,13 +941,14 @@ export default function Portfolio() {
                   <div style={{ display: "flex", gap: 8 }}>
                     {(
                       [
-                        ["GitHub",   "⌥", colors.mint],
-                        ["Twitter",  "𝕏", colors.lavender],
-                        ["LinkedIn", "in", colors.coral],
-                      ] as [string, string, string][]
-                    ).map(([label, icon, color]) => (
+                        ["GitHub", "⌥", colors.mint, "https://github.com/"],
+                        ["Twitter", "𝕏", colors.lavender, "https://twitter.com/"],
+                        ["LinkedIn", "in", colors.coral, "https://www.linkedin.com/in/sanket-sangar/"],
+                      ] as [string, string, string, string][]
+                    ).map(([label, icon, color, url]) => (
                       <button
                         key={label}
+                        onClick={() => window.open(url, "_blank")}
                         style={{
                           flex: 1,
                           padding: "10px 8px",
@@ -753,7 +996,7 @@ export default function Portfolio() {
               letterSpacing: "0.04em",
             }}
           >
-            SK<span style={{ color: colors.pink }}>.</span>DEV
+            SS<span style={{ color: colors.pink }}>.</span>DEV
           </div>
           <div
             style={{
