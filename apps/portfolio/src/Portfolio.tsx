@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Card, Badge } from "@neo-brutal/react";
-import { colors, shadows, borders } from "@neo-brutal/tokens";
-import ProfilePhotoSection from "./ProfilePhotoSection";
+import { colors } from "@neo-brutal/tokens";
 
-// ── Extra primitives not yet in the lib (local to this app) ────
+// ── Extra primitives ────────────────────────────────────────────
 const SH = (n = 4, c = colors.black) => `${n}px ${n}px 0px ${c}`;
 const BR = (c = colors.black, w = "2.5px") => `${w} solid ${c}`;
+
+// Replace with your actual image path
+const PROFILE_IMAGE = "/sanket-profile.png";
 
 function Tag({ label, color }: { label: string; color?: string }) {
   return (
@@ -79,6 +81,104 @@ function Section({ children, delay = 0 }: { children: React.ReactNode; delay?: n
       }}
     >
       {children}
+    </div>
+  );
+}
+
+// ── Star Burst Component ────────────────────────────────────────
+function StarBurst() {
+  return (
+    <div
+      style={{
+        width: 100,
+        height: 80,
+        backgroundImage: "url('/starburst.png')",
+        backgroundSize: "cover",       /* Makes image cover entire div */
+        backgroundPosition: "center",  /* Centers the image */
+        backgroundRepeat: "no-repeat",  /* Prevents repeating */       
+      }}
+    />
+  );
+}
+
+// ── Profile Photo Card Component ────────────────────────────────
+function ProfilePhotoCard() {
+  const cream = "#FFF8E7";
+  
+  return (
+    <div
+      style={{
+        position: "relative",
+        background: cream,
+        border: BR(),
+        borderRadius: 20,
+        padding: "clamp(12px, 2vw, 18px)",
+        boxShadow: SH(6),
+        width: "fit-content",
+      }}
+    >
+      {/* Inner Frame - SQUARE */}
+      <div
+        style={{
+          width: "clamp(160px, 22vw, 220px)",
+          height: "clamp(160px, 22vw, 220px)",
+          background: colors.mint || "#B8F4D4",
+          border: BR(),
+          borderRadius: 12,
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          src={PROFILE_IMAGE}
+          alt="Sanket Sangar"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      </div>
+      {/* Star Burst Badge */}
+      <div style={{ position: "absolute", top: -30, right: -30 }}>
+        <StarBurst />
+      </div>
+      <div style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 8,
+            marginBottom: -8
+      }}>
+{/* Available badge */}
+<div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: colors.pinkLight,
+                  border: BR(),
+                  borderRadius: 999,
+                  padding: "6px 14px",
+                  boxShadow: SH(2),
+                }}
+              >
+                <div
+                  style={{
+                    width: 8,
+                    height: 8,
+                    background: "#22c55e",
+                    borderRadius: "50%",
+                    boxShadow: "0 0 0 3px rgba(34,197,94,.3)",
+                  }}
+                />
+                <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "clamp(11px, 2vw, 12px)", fontWeight: 700 }}>
+                  Available for work
+                </span>
+              </div>
+      </div>
     </div>
   );
 }
@@ -219,62 +319,19 @@ export default function Portfolio() {
         );
       case "typescript":
         return (
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              background: colors.black,
-              borderRadius: 8,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "'Black Han Sans', Impact, sans-serif",
-              fontSize: 20,
-              color: colors.white,
-              letterSpacing: "-0.02em",
-            }}
-          >
+          <div style={{ width: 48, height: 48, background: colors.black, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Black Han Sans', Impact, sans-serif", fontSize: 20, color: colors.white, letterSpacing: "-0.02em" }}>
             TS
           </div>
         );
       case "nextjs":
         return (
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              background: colors.black,
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "'Black Han Sans', Impact, sans-serif",
-              fontSize: 16,
-              color: colors.white,
-              letterSpacing: "0.02em",
-            }}
-          >
+          <div style={{ width: 48, height: 48, background: colors.black, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Black Han Sans', Impact, sans-serif", fontSize: 16, color: colors.white, letterSpacing: "0.02em" }}>
             N
           </div>
         );
       case "javascript":
         return (
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              background: colors.yellowLight,
-              border: BR(),
-              borderRadius: 4,
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "flex-end",
-              padding: 5,
-              fontFamily: "'Black Han Sans', Impact, sans-serif",
-              fontSize: 22,
-              color: colors.black,
-            }}
-          >
+          <div style={{ width: 48, height: 48, background: colors.yellowLight, border: BR(), borderRadius: 4, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", padding: 5, fontFamily: "'Black Han Sans', Impact, sans-serif", fontSize: 22, color: colors.black }}>
             JS
           </div>
         );
@@ -298,12 +355,7 @@ export default function Portfolio() {
       case "nodejs":
         return (
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M12 2L21 7V17L12 22L3 17V7L12 2Z"
-              stroke={colors.black}
-              strokeWidth="1.5"
-              fill={colors.mintLight}
-            />
+            <path d="M12 2L21 7V17L12 22L3 17V7L12 2Z" stroke={colors.black} strokeWidth="1.5" fill={colors.mintLight} />
             <path d="M12 8V16" stroke={colors.black} strokeWidth="1.5" />
             <path d="M8 10V14L12 16L16 14V10" stroke={colors.black} strokeWidth="1.5" fill="none" />
           </svg>
@@ -322,21 +374,7 @@ export default function Portfolio() {
         );
       case "d3":
         return (
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              background: colors.coralLight,
-              border: BR(),
-              borderRadius: 8,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "'Black Han Sans', Impact, sans-serif",
-              fontSize: 18,
-              color: colors.black,
-            }}
-          >
+          <div style={{ width: 48, height: 48, background: colors.coralLight, border: BR(), borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Black Han Sans', Impact, sans-serif", fontSize: 18, color: colors.black }}>
             D3
           </div>
         );
@@ -364,20 +402,123 @@ export default function Portfolio() {
         color: colors.black,
       }}
     >
-      {/* Keyframe animations */}
+      {/* Keyframe animations + Responsive styles */}
       <style>
         {`
           @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
           }
-          @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-          }
           @keyframes cursor-blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
+          }
+          
+          /* Responsive Hero Grid */
+          .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            align-items: flex-start;
+          }
+          
+          @media (min-width: 768px) {
+            .hero-grid {
+              grid-template-columns: 1fr auto;
+              gap: 40px;
+            }
+          }
+          
+          .hero-content {
+            order: 2;
+          }
+          
+          .hero-image {
+            order: 1;
+            display: flex;
+            justify-content: center;
+          }
+          
+          @media (min-width: 768px) {
+            .hero-content {
+              order: 1;
+            }
+            .hero-image {
+              order: 2;
+            }
+          }
+          
+          /* Responsive Stats Grid */
+          .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+          }
+          
+          @media (min-width: 480px) {
+            .stats-grid {
+              grid-template-columns: repeat(4, auto);
+              gap: 16px;
+            }
+          }
+          
+          /* Responsive Nav */
+          .nav-links {
+            display: none;
+          }
+          
+          @media (min-width: 640px) {
+            .nav-links {
+              display: flex;
+              gap: 4px;
+            }
+          }
+          
+          /* Responsive Projects Grid */
+          .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+          
+          @media (min-width: 600px) {
+            .projects-grid {
+              grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            }
+          }
+          
+          /* Responsive Skills Grid */
+          .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+          }
+          
+          @media (min-width: 600px) {
+            .skills-grid {
+              grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+          }
+          
+          /* Timeline responsive */
+          .timeline-container {
+            padding-left: 40px;
+          }
+          
+          @media (min-width: 640px) {
+            .timeline-container {
+              padding-left: 52px;
+            }
+          }
+          
+          .timeline-dot {
+            left: -32px;
+          }
+          
+          @media (min-width: 640px) {
+            .timeline-dot {
+              left: -44px;
+            }
           }
         `}
       </style>
@@ -391,7 +532,7 @@ export default function Portfolio() {
           background: scrolled ? colors.white : colors.yellow,
           borderBottom: scrolled ? BR() : BR("#1A1A1A"),
           boxShadow: scrolled ? SH(3) : "none",
-          padding: "0 24px",
+          padding: "0 clamp(16px, 4vw, 24px)",
           height: 56,
           display: "flex",
           alignItems: "center",
@@ -402,14 +543,14 @@ export default function Portfolio() {
         <div
           style={{
             fontFamily: "'Black Han Sans', Impact, sans-serif",
-            fontSize: 18,
+            fontSize: "clamp(16px, 3vw, 18px)",
             letterSpacing: "0.04em",
           }}
         >
-          SS<span style={{ color: colors.pink }}>.</span>DEV
+          SANKET<span style={{ color: colors.pink }}>//</span>DEV
         </div>
 
-        <div style={{ display: "flex", gap: 4 }}>
+        <div className="nav-links">
           {NAV_ITEMS.map((n) => (
             <button
               key={n}
@@ -418,14 +559,13 @@ export default function Portfolio() {
                 padding: "6px 14px",
                 background: activeNav === n ? colors.black : "transparent",
                 color: activeNav === n ? colors.yellow : colors.black,
-                border: colors.black,
+                border: "none",
                 borderRadius: 8,
                 fontFamily: "'DM Sans', sans-serif",
                 fontWeight: 700,
                 fontSize: 13,
                 cursor: "pointer",
                 boxShadow: activeNav === n ? SH(2) : "none",
-                transform: activeNav === n ? "translate(-1px,-1px)" : "none",
                 transition: "all 100ms",
               }}
             >
@@ -437,152 +577,131 @@ export default function Portfolio() {
         <Button label="Hire Me" variant="yellow" size="sm" icon="→" />
       </nav>
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 80px" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 clamp(16px, 4vw, 24px) 80px" }}>
 
         {/* ── HERO ─────────────────────────────────────────────── */}
-        <section style={{ padding: "60px 0 72px", position: "relative" }}>
-          {/* Profile */}
-          <ProfilePhotoSection />
-
-          {/* Available badge */}
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: colors.pinkLight,
-              border: BR(),
-              borderRadius: 999,
-              padding: "6px 14px",
-              boxShadow: SH(2),
-              marginBottom: 24,
-            }}
-          >
-            <div
-              style={{
-                width: 8,
-                height: 8,
-                background: "#22c55e",
-                borderRadius: "50%",
-                boxShadow: "0 0 0 3px rgba(34,197,94,.3)",
-              }}
-            />
-            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 700 }}>
-              Available for work
-            </span>
-          </div>
-
-          {/* Name */}
-          <h1
-            style={{
-              fontFamily: "'Black Han Sans', Impact, sans-serif",
-              fontSize: "clamp(42px, 8vw, 80px)",
-              lineHeight: 1,
-              letterSpacing: "0.01em",
-              textTransform: "uppercase",
-              marginBottom: 8,
-            }}
-          >
-            SANKET
-            <br />
-            <span
-              style={{
-                WebkitTextStroke: `3px ${colors.black}`,
-                color: "transparent",
-                textShadow: `6px 6px 0px ${colors.pink}`,
-              }}
-            >
-              SANGAR
-            </span>
-          </h1>
-
-          {/* Title tag */}
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              background: colors.black,
-              color: colors.yellow,
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 16,
-              fontWeight: 600,
-              padding: "8px 18px",
-              borderRadius: 10,
-              boxShadow: SH(4, "#1A1A1A"),
-              marginBottom: 24,
-            }}
-          >
-            <span>Senior Software Engineer (Frontend)</span>
-            <span
-              style={{
-                animation: "cursor-blink 1s infinite",
-                borderRight: `2px solid ${colors.yellow}`,
-                height: 18,
-              }}
-            />
-          </div>
-
-          <p
-            style={{
-              maxWidth: 520,
-              fontSize: 16,
-              fontWeight: 500,
-              lineHeight: 1.7,
-              opacity: 0.75,
-              marginBottom: 32,
-            }}
-          >
-            I build scalable, high-performance web applications with React and TypeScript. 
-            Specialized in frontend architecture, design systems, and performance optimization 
-            for enterprise-scale products.
-          </p>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-            <Button label="View Projects" variant="primary" icon="↓" size="lg" />
-            <Button label="Download CV"   variant="secondary" icon="⬇" size="lg" />
-            <Button label="GitHub"        variant="ghost" icon="⌥" size="lg" />
-          </div>
-
-          {/* Stats */}
-          <div style={{ display: "flex", gap: 16, marginTop: 40, flexWrap: "wrap" }}>
-            {(
-              [
-                ["7+", "Years exp."],
-                ["50k+", "Users served"],
-                ["5+", "Enterprise products"],
-                ["30%", "Dev time saved"],
-              ] as [string, string][]
-            ).map(([n, l]) => (
-              <Card key={l} bg={colors.white} radius="sm" padding="14px 20px" shadow="sm">
-                <div
+        <section style={{ padding: "clamp(32px, 6vw, 60px) 0 clamp(40px, 8vw, 72px)" }}>
+          <div className="hero-grid">
+            {/* Left - Content */}
+            <div className="hero-content">
+              {/* Name */}
+              <h1
+                style={{
+                  fontFamily: "'Black Han Sans', Impact, sans-serif",
+                  fontSize: "clamp(36px, 10vw, 80px)",
+                  lineHeight: 1,
+                  letterSpacing: "0.01em",
+                  textTransform: "uppercase",
+                  marginBottom: 8,
+                }}
+              >
+                SANKET
+                <br />
+                <span
                   style={{
-                    fontFamily: "'Black Han Sans', Impact, sans-serif",
-                    fontSize: 28,
-                    lineHeight: 1,
+                    WebkitTextStroke: `clamp(2px, 0.4vw, 3px) ${colors.black}`,
+                    color: "transparent",
+                    textShadow: `clamp(4px, 0.8vw, 6px) clamp(4px, 0.8vw, 6px) 0px ${colors.pink}`,
                   }}
                 >
-                  {n}
-                </div>
-                <div
+                  SANGAR
+                </span>
+              </h1>
+
+              {/* Title tag */}
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                  background: colors.black,
+                  color: colors.yellow,
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "clamp(11px, 2vw, 16px)",
+                  fontWeight: 600,
+                  padding: "8px clamp(12px, 2vw, 18px)",
+                  borderRadius: 10,
+                  boxShadow: SH(4, "#1A1A1A"),
+                  marginBottom: "clamp(16px, 3vw, 24px)",
+                }}
+              >
+                <span>Senior Frontend Engineer</span>
+                <span
                   style={{
-                    fontSize: 11,
-                    fontWeight: 600,
-                    opacity: 0.55,
-                    marginTop: 3,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
+                    animation: "cursor-blink 1s infinite",
+                    borderRight: `2px solid ${colors.yellow}`,
+                    height: 18,
                   }}
-                >
-                  {l}
-                </div>
-              </Card>
-            ))}
+                />
+              </div>
+
+              <p
+                style={{
+                  maxWidth: 520,
+                  fontSize: "clamp(14px, 2vw, 16px)",
+                  fontWeight: 500,
+                  lineHeight: 1.7,
+                  opacity: 0.75,
+                  marginBottom: "clamp(20px, 4vw, 32px)",
+                }}
+              >
+                I build scalable, high-performance web applications with React and TypeScript. 
+                Specialized in frontend architecture, design systems, and performance optimization 
+                for enterprise-scale products.
+              </p>
+
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+                <Button label="View Projects" variant="primary" icon="↓" size="lg" />
+                <Button label="Download CV"   variant="secondary" icon="⬇" size="lg" />
+                <Button label="GitHub"        variant="ghost" icon="⌥" size="lg" />
+              </div>
+
+              {/* Stats */}
+              <div className="stats-grid" style={{ marginTop: "clamp(24px, 5vw, 40px)" }}>
+                {(
+                  [
+                    ["7+", "Years exp."],
+                    ["50k+", "Users"],
+                    ["5+", "Products"],
+                    ["30%", "Time saved"],
+                  ] as [string, string][]
+                ).map(([n, l]) => (
+                  <Card key={l} bg={colors.white} radius="sm" padding="clamp(10px, 2vw, 14px) clamp(14px, 2vw, 20px)" shadow="sm">
+                    <div
+                      style={{
+                        fontFamily: "'Black Han Sans', Impact, sans-serif",
+                        fontSize: "clamp(22px, 4vw, 28px)",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {n}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "clamp(9px, 1.5vw, 11px)",
+                        fontWeight: 600,
+                        opacity: 0.55,
+                        marginTop: 3,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                      }}
+                    >
+                      {l}
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Right - Photo Card */}
+            <div className="hero-image">
+              <ProfilePhotoCard />
+            </div>
           </div>
         </section>
 
         {/* ── TECH STACK MARQUEE ───────────────────────────────────── */}
-        <section style={{ paddingBottom: 48 }}>
+        <section style={{ paddingBottom: "clamp(32px, 6vw, 48px)" }}>
           <div
             style={{
               background: colors.white,
@@ -595,61 +714,17 @@ export default function Portfolio() {
             }}
           >
             {/* Fade edges */}
-            <div
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: 60,
-                background: `linear-gradient(to right, ${colors.white}, transparent)`,
-                zIndex: 2,
-                pointerEvents: "none",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                right: 0,
-                top: 0,
-                bottom: 0,
-                width: 60,
-                background: `linear-gradient(to left, ${colors.white}, transparent)`,
-                zIndex: 2,
-                pointerEvents: "none",
-              }}
-            />
+            <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "clamp(30px, 8vw, 60px)", background: `linear-gradient(to right, ${colors.white}, transparent)`, zIndex: 2, pointerEvents: "none" }} />
+            <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "clamp(30px, 8vw, 60px)", background: `linear-gradient(to left, ${colors.white}, transparent)`, zIndex: 2, pointerEvents: "none" }} />
 
             {/* Scrolling track */}
-            <div
-              style={{
-                display: "flex",
-                gap: 40,
-                animation: "marquee 25s linear infinite",
-                width: "max-content",
-              }}
-            >
+            <div style={{ display: "flex", gap: 40, animation: "marquee 25s linear infinite", width: "max-content" }}>
               {[...Array(2)].map((_, setIndex) => (
                 <div key={setIndex} style={{ display: "flex", alignItems: "center", gap: 40 }}>
                   {TECH_STACK.map((tech, i) => (
-                    <div
-                      key={`${setIndex}-${i}`}
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 6,
-                      }}
-                    >
+                    <div key={`${setIndex}-${i}`} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
                       {renderTechIcon(tech.type)}
-                      <span
-                        style={{
-                          fontFamily: "'JetBrains Mono', monospace",
-                          fontSize: 10,
-                          fontWeight: 600,
-                          opacity: 0.6,
-                        }}
-                      >
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 600, opacity: 0.6 }}>
                         {tech.label}
                       </span>
                     </div>
@@ -661,68 +736,30 @@ export default function Portfolio() {
         </section>
 
         {/* ── PROJECTS ─────────────────────────────────────────── */}
-        <section style={{ paddingBottom: 72 }}>
+        <section style={{ paddingBottom: "clamp(48px, 8vw, 72px)" }}>
           <Section><SectionLabel text="Work" /></Section>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))",
-              gap: 16,
-            }}
-          >
+          <div className="projects-grid">
             {PROJECTS.map((p, i) => (
               <Section key={p.title} delay={i * 80}>
-                <Card bg={p.color} radius="lg" padding="24px" shadow="md" style={{ height: "100%" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "flex-start",
-                      marginBottom: 14,
-                    }}
-                  >
+                <Card bg={p.color} radius="lg" padding="clamp(16px, 3vw, 24px)" shadow="md" style={{ height: "100%" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14, flexWrap: "wrap", gap: 8 }}>
                     <Badge label={p.badge} color={colors.black} textColor={colors.yellow} />
-                    <span
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        fontSize: 10,
-                        opacity: 0.5,
-                        fontWeight: 600,
-                      }}
-                    >
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(9px, 1.5vw, 10px)", opacity: 0.5, fontWeight: 600 }}>
                       {p.metric}
                     </span>
                   </div>
-                  <h3
-                    style={{
-                      fontFamily: "'Black Han Sans', Impact, sans-serif",
-                      fontSize: 22,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.02em",
-                      marginBottom: 10,
-                    }}
-                  >
+                  <h3 style={{ fontFamily: "'Black Han Sans', Impact, sans-serif", fontSize: "clamp(18px, 3vw, 22px)", textTransform: "uppercase", letterSpacing: "0.02em", marginBottom: 10 }}>
                     {p.title}
                   </h3>
-                  <p
-                    style={{
-                      fontSize: 13,
-                      lineHeight: 1.65,
-                      opacity: 0.75,
-                      marginBottom: 16,
-                      fontWeight: 500,
-                    }}
-                  >
+                  <p style={{ fontSize: "clamp(12px, 2vw, 13px)", lineHeight: 1.65, opacity: 0.75, marginBottom: 16, fontWeight: 500 }}>
                     {p.desc}
                   </p>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
-                    {p.tags.map((t) => (
-                      <Tag key={t} label={t} />
-                    ))}
+                    {p.tags.map((t) => <Tag key={t} label={t} />)}
                   </div>
-                  <div style={{ display: "flex", gap: 8 }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                     <Button label="View Project" variant="primary" size="sm" icon="→" />
-                    <Button label="GitHub"       variant="ghost"   size="sm" icon="⌥" />
+                    <Button label="GitHub" variant="ghost" size="sm" icon="⌥" />
                   </div>
                 </Card>
               </Section>
@@ -731,48 +768,18 @@ export default function Portfolio() {
         </section>
 
         {/* ── SKILLS ───────────────────────────────────────────── */}
-        <section style={{ paddingBottom: 72 }}>
+        <section style={{ paddingBottom: "clamp(48px, 8vw, 72px)" }}>
           <Section><SectionLabel text="Skills" /></Section>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-              gap: 14,
-            }}
-          >
+          <div className="skills-grid">
             {SKILLS.map((group, i) => (
               <Section key={group.group} delay={i * 60}>
-                <Card bg={colors.white} radius="md" padding="20px" shadow="sm">
-                  <div
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: 10,
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.1em",
-                      opacity: 0.45,
-                      marginBottom: 12,
-                    }}
-                  >
+                <Card bg={colors.white} radius="md" padding="clamp(14px, 2vw, 20px)" shadow="sm">
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.45, marginBottom: 12 }}>
                     {group.group}
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {group.items.map((item) => (
-                      <div
-                        key={item}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          background: group.color,
-                          border: BR(),
-                          borderRadius: 8,
-                          padding: "8px 12px",
-                          boxShadow: SH(2),
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: 13,
-                          fontWeight: 700,
-                        }}
-                      >
+                      <div key={item} style={{ display: "flex", alignItems: "center", background: group.color, border: BR(), borderRadius: 8, padding: "8px 12px", boxShadow: SH(2), fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(12px, 2vw, 13px)", fontWeight: 700 }}>
                         {item}
                       </div>
                     ))}
@@ -784,82 +791,26 @@ export default function Portfolio() {
         </section>
 
         {/* ── EXPERIENCE ───────────────────────────────────────── */}
-        <section style={{ paddingBottom: 72 }}>
+        <section style={{ paddingBottom: "clamp(48px, 8vw, 72px)" }}>
           <Section><SectionLabel text="Experience" /></Section>
           <div style={{ position: "relative" }}>
-            {/* Timeline line */}
-            <div
-              style={{
-                position: "absolute",
-                left: 19,
-                top: 0,
-                bottom: 0,
-                width: "2px",
-                background: colors.black,
-              }}
-            />
-            <div style={{ display: "flex", flexDirection: "column", gap: 20, paddingLeft: 52 }}>
+            <div style={{ position: "absolute", left: 19, top: 0, bottom: 0, width: "2px", background: colors.black }} />
+            <div className="timeline-container" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {EXPERIENCE.map((e, i) => (
                 <Section key={e.company} delay={i * 100}>
                   <div style={{ position: "relative" }}>
-                    {/* Timeline dot */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        left: -44,
-                        top: 18,
-                        width: 24,
-                        height: 24,
-                        background: e.color,
-                        border: BR(),
-                        borderRadius: "50%",
-                        boxShadow: SH(2),
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: 10,
-                        fontWeight: 900,
-                      }}
-                    >
+                    <div className="timeline-dot" style={{ position: "absolute", top: 18, width: "clamp(20px, 3vw, 24px)", height: "clamp(20px, 3vw, 24px)", background: e.color, border: BR(), borderRadius: "50%", boxShadow: SH(2), display: "flex", alignItems: "center", justifyContent: "center", fontSize: "clamp(9px, 1.5vw, 10px)", fontWeight: 900 }}>
                       {i + 1}
                     </div>
-                    <Card bg={e.color} radius="md" padding="22px" shadow="sm">
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "flex-start",
-                          flexWrap: "wrap",
-                          gap: 8,
-                          marginBottom: 10,
-                        }}
-                      >
+                    <Card bg={e.color} radius="md" padding="clamp(16px, 3vw, 22px)" shadow="sm">
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8, marginBottom: 10 }}>
                         <div>
-                          <h3
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontWeight: 900,
-                              fontSize: 17,
-                            }}
-                          >
-                            {e.role}
-                          </h3>
-                          <div
-                            style={{
-                              fontFamily: "'Black Han Sans', Impact, sans-serif",
-                              fontSize: 14,
-                              letterSpacing: "0.04em",
-                              marginTop: 2,
-                            }}
-                          >
-                            {e.company}
-                          </div>
+                          <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 900, fontSize: "clamp(14px, 2.5vw, 17px)" }}>{e.role}</h3>
+                          <div style={{ fontFamily: "'Black Han Sans', Impact, sans-serif", fontSize: "clamp(12px, 2vw, 14px)", letterSpacing: "0.04em", marginTop: 2 }}>{e.company}</div>
                         </div>
                         <Badge label={e.period} color={colors.black} textColor={colors.yellow} />
                       </div>
-                      <p style={{ fontSize: 13, lineHeight: 1.7, opacity: 0.75, fontWeight: 500 }}>
-                        {e.desc}
-                      </p>
+                      <p style={{ fontSize: "clamp(12px, 2vw, 13px)", lineHeight: 1.7, opacity: 0.75, fontWeight: 500 }}>{e.desc}</p>
                     </Card>
                   </div>
                 </Section>
@@ -872,101 +823,25 @@ export default function Portfolio() {
         <section style={{ paddingBottom: 40 }}>
           <Section><SectionLabel text="Contact" /></Section>
           <Section delay={100}>
-            <Card bg={colors.black} radius="xl" padding="40px" shadow="xl">
-              <div
-                style={{
-                  display: "flex",
-                  gap: 24,
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                }}
-              >
+            <Card bg={colors.black} radius="xl" padding="clamp(24px, 5vw, 40px)" shadow="xl">
+              <div style={{ display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap", justifyContent: "space-between" }}>
                 <div>
-                  <h2
-                    style={{
-                      fontFamily: "'Black Han Sans', Impact, sans-serif",
-                      fontSize: "clamp(28px, 5vw, 48px)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.02em",
-                      color: colors.yellow,
-                      lineHeight: 1.1,
-                      marginBottom: 12,
-                    }}
-                  >
-                    LET'S BUILD
-                    <br />
-                    SOMETHING.
+                  <h2 style={{ fontFamily: "'Black Han Sans', Impact, sans-serif", fontSize: "clamp(24px, 6vw, 48px)", textTransform: "uppercase", letterSpacing: "0.02em", color: colors.yellow, lineHeight: 1.1, marginBottom: 12 }}>
+                    LET'S BUILD<br />SOMETHING.
                   </h2>
-                  <p
-                    style={{
-                      color: "rgba(255,255,255,.6)",
-                      fontSize: 14,
-                      fontWeight: 500,
-                      maxWidth: 340,
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    Open to full-time roles, contract work, and design system consulting. Always
-                    happy to talk craft.
+                  <p style={{ color: "rgba(255,255,255,.6)", fontSize: "clamp(12px, 2vw, 14px)", fontWeight: 500, maxWidth: 340, lineHeight: 1.6 }}>
+                    Open to full-time roles, contract work, and design system consulting. Always happy to talk craft.
                   </p>
                 </div>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: 220 }}>
-                  <button
-                    onClick={copyEmail}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
-                      background: colors.yellow,
-                      color: colors.black,
-                      border: BR(),
-                      borderRadius: 12,
-                      padding: "14px 20px",
-                      cursor: "pointer",
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontSize: 12,
-                      fontWeight: 600,
-                      transition: "transform 80ms, box-shadow 80ms",
-                      userSelect: "none",
-                    }}
-                  >
-                    <span style={{ flex: 1, textAlign: "left" }}>
-                      {copied ? "✓  Copied!" : "sanketsangar.11@gmail.com"}
-                    </span>
+                <div style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: "clamp(200px, 40vw, 220px)", width: "100%", maxWidth: 280 }}>
+                  <button onClick={copyEmail} style={{ display: "flex", alignItems: "center", gap: 12, background: colors.yellow, color: colors.black, border: BR(), borderRadius: 12, padding: "clamp(10px, 2vw, 14px) clamp(14px, 2vw, 20px)", cursor: "pointer", fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(10px, 1.8vw, 12px)", fontWeight: 600 }}>
+                    <span style={{ flex: 1, textAlign: "left" }}>{copied ? "✓  Copied!" : "sanketsangar.11@gmail.com"}</span>
                     <span style={{ opacity: 0.5 }}>⎘</span>
                   </button>
-
                   <div style={{ display: "flex", gap: 8 }}>
-                    {(
-                      [
-                        ["GitHub", "⌥", colors.mint, "https://github.com/"],
-                        ["Twitter", "𝕏", colors.lavender, "https://twitter.com/"],
-                        ["LinkedIn", "in", colors.coral, "https://www.linkedin.com/in/sanket-sangar/"],
-                      ] as [string, string, string, string][]
-                    ).map(([label, icon, color, url]) => (
-                      <button
-                        key={label}
-                        onClick={() => window.open(url, "_blank")}
-                        style={{
-                          flex: 1,
-                          padding: "10px 8px",
-                          background: color,
-                          border: BR(),
-                          borderRadius: 10,
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: 12,
-                          fontWeight: 700,
-                          cursor: "pointer",
-                          boxShadow: SH(3),
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          gap: 3,
-                        }}
-                      >
-                        <span style={{ fontSize: 16 }}>{icon}</span>
+                    {([["GitHub", "⌥", colors.mint, "https://github.com/"], ["Twitter", "𝕏", colors.lavender, "https://twitter.com/"], ["LinkedIn", "in", colors.coral, "https://www.linkedin.com/in/sanket-sangar/"]] as [string, string, string, string][]).map(([label, icon, color, url]) => (
+                      <button key={label} onClick={() => window.open(url, "_blank")} style={{ flex: 1, padding: "clamp(8px, 1.5vw, 10px) 8px", background: color, border: BR(), borderRadius: 10, fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(10px, 1.8vw, 12px)", fontWeight: 700, cursor: "pointer", boxShadow: SH(3), display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+                        <span style={{ fontSize: "clamp(14px, 2vw, 16px)" }}>{icon}</span>
                         <span>{label}</span>
                       </button>
                     ))}
@@ -978,51 +853,16 @@ export default function Portfolio() {
         </section>
 
         {/* ── FOOTER ───────────────────────────────────────────── */}
-        <footer
-          style={{
-            borderTop: BR(),
-            paddingTop: 24,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: 12,
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "'Black Han Sans', Impact, sans-serif",
-              fontSize: 16,
-              letterSpacing: "0.04em",
-            }}
-          >
-            SS<span style={{ color: colors.pink }}>.</span>DEV
+        <footer style={{ borderTop: BR(), paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+          <div style={{ fontFamily: "'Black Han Sans', Impact, sans-serif", fontSize: 16, letterSpacing: "0.04em" }}>
+            SANKET<span style={{ color: colors.pink }}>//</span>DEV
           </div>
-          <div
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11,
-              opacity: 0.45,
-            }}
-          >
-            Built with{" "}
-            <span
-              style={{
-                background: colors.yellowLight,
-                border: BR(),
-                borderRadius: 4,
-                padding: "1px 6px",
-                fontWeight: 700,
-                opacity: 1,
-              }}
-            >
-              @neo-brutal/react
-            </span>{" "}
-            · {new Date().getFullYear()}
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "clamp(9px, 1.5vw, 11px)", opacity: 0.45 }}>
+            Built with <span style={{ background: colors.yellowLight, border: BR(), borderRadius: 4, padding: "1px 6px", fontWeight: 700, opacity: 1 }}>@neo-brutal/react</span> · {new Date().getFullYear()}
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <Badge label="React 18"      color={colors.mintLight} />
-            <Badge label="TypeScript"    color={colors.lavenderLight} />
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <Badge label="React 18" color={colors.mintLight} />
+            <Badge label="TypeScript" color={colors.lavenderLight} />
             <Badge label="Neo//Brutal DS" color={colors.yellowLight} />
           </div>
         </footer>
